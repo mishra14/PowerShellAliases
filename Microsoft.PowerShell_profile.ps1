@@ -1,5 +1,5 @@
  $env:Path = ($env:Path).Replace("C:\Program Files (x86)\MSBuild\12.0\bin","C:\Program Files (x86)\MSBuild\14.0\bin")
- Set-Location "E:\nuget\NuGet.Client"
+ #Set-Location "E:\nuget\NuGet.Client"
  
  Function Show-Path 
  {
