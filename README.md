@@ -2,10 +2,10 @@
 Some git (and other) power shell aliases that come in handy.
 
 # Usage
-'''
+```javascript
 git clone https://github.com/mishra14/PowerShellAliases.git
 .\init.ps1
-'''
+```
 
 # Examples
 
