@@ -8,17 +8,12 @@ $sourcePath = Join-Path ".\" "Microsoft.PowerShell_profile.ps1"
 if (Test-Path $destFolder) {
 	if (Test-Path $destPath) {
 		Write-Host "$destPath already exists. Exiting!"
-		#Exit
-	}
-	else {
-		Copy-Item $sourcePath $destPath
-		Write-Host "PowerShell profile copied to $destPath"
+		Exit
 	}
 }
 else {
 	New-Item -ItemType directory -Path $destFolder
-	Copy-Item $sourcePath $destPath
-	Write-Host "PowerShell profile copied to $destPath"
 }
-
-& $destPath
+# Move the file to the correct location
+Copy-Item $sourcePath $destPath
+Write-Host "PowerShell profile copied to $destPath"

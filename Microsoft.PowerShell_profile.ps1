@@ -6,24 +6,36 @@
 	echo ($env:Path).Replace(';',"`n")
  }
  
- Function Build
+ Function Build-Configure
+ {
+	.\configure.ps1
+ }
+ 
+ Function Build-Only-Build
  {
 	.\build.ps1
  }
  
- Function Build-Skip-Tests
+ Function Build-Test
  {
-	.\build.ps1 -SkipTests
+	.\runTests.ps1
  }
  
- Function Build-Skip-Tests-Clean-Cache
+ Function Build-Fast
  {
-	.\build.ps1 -SkipTests -CleanCache
+	.\build.ps1 -f
  }
  
- Function Build-Skip-Tests-Fast
+ Function Build-Configure-Build
  {
-	.\build.ps1 -Fast
+	bc
+	bb
+ }
+ 
+ Function Build-Configure-Test
+ {
+	bc
+	bt
  }
  
  Function Git-Clean
@@ -54,17 +66,25 @@
  Function Git-Reset-Hard
  {
 	git reset --hard
- } 
+ }
+ 
+ Function Git-Add-All
+ {
+	git add -A
+ }
  
  
  Set-Alias -name path -value Show-Path -description "Pretty print system path"
 
- Set-Alias -name bb -value Build -description "Build Nuget Core project"
- Set-Alias -name bbs -value Build-Skip-Tests -description "Build Nuget Core project skip tests"
- Set-Alias -name bbsc -value Build-Skip-Tests-Clean-Cache -description "Build Nuget Core project skip tests and clean cache"
- Set-Alias -name bbf -value Build-Skip-Tests-Fast -description "Build Nuget Core project Fast"
+ Set-Alias -name bc -value Build-Configure -description "Run configure.ps1"
+ Set-Alias -name bb -value Build-Only-Build -description "Run build.ps1"
+ Set-Alias -name bt -value Build-Test -description "Run runTest.ps1"
+ Set-Alias -name bf -value Build-Fast -description "Run .\build.ps1 -f"
+ Set-Alias -name bcb -value Build-Configure-Build -description "Run .\configure.ps1 and .\build.ps1"
+ Set-Alias -name bct -value Build-Configure-Test -description "Run .\configure.ps1 and .\runTest.ps1"
   
  Set-Alias -name gitc -value Git-Clean -description "Git clean -xdf" 
+ Set-Alias -name gitaa -value Git-Add-All -description "Git add -A"
  Set-Alias -name gits -value Git-Status -description "Git status"
  Set-Alias -name gitd -value Git-Diff -description "Git diff"
  Set-Alias -name gitdd -value Git-Diff-Dev -description "Git diff dev"
