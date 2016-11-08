@@ -1,5 +1,5 @@
  $env:Path = ($env:Path).Replace("C:\Program Files (x86)\MSBuild\12.0\bin","C:\Program Files (x86)\MSBuild\14.0\bin")
- #Set-Location "E:\nuget\NuGet.Client"
+ Set-Location "E:\nuget\NuGet.Client"
  
  Function Show-Path 
  {
@@ -73,6 +73,11 @@
 	git add -A
  }
  
+ Function Patch-NuGet
+ {
+	\\scratch2\scratch\anmishr\vs2017\patchNuget.ps1 ./
+ }
+ 
  
  Set-Alias -name path -value Show-Path -description "Pretty print system path"
 
@@ -90,3 +95,5 @@
  Set-Alias -name gitdd -value Git-Diff-Dev -description "Git diff dev"
  Set-Alias -name gitr -value Git-Reset -description "Git reset"
  Set-Alias -name gitrh -value Git-Reset-Hard -description "Git reset --hard"
+ 
+ Set-Alias -name patch -value Patch-NuGet -description "Patch local Nuget repo to build with VS15"
