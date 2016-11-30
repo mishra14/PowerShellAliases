@@ -1,22 +1,22 @@
- $env:Path = ($env:Path).Replace("C:\Program Files (x86)\MSBuild\12.0\bin","C:\Program Files (x86)\MSBuild\14.0\bin")
- Set-Location "E:\nuget\NuGet.Client"
+ # $env:Path = ($env:Path).Replace("C:\Program Files (x86)\MSBuild\12.0\bin","C:\Program Files (x86)\MSBuild\14.0\bin")
+ Set-Location "E:\NuGet.Client"
  
  Function Show-Path 
  {
 	echo ($env:Path).Replace(';',"`n")
  }
  
- Function Build-Configure
+ Function Configure
  {
 	.\configure.ps1
  }
  
- Function Build-Only-Build
+ Function Build
  {
 	.\build.ps1
  }
  
- Function Build-Test
+ Function Test
  {
 	.\runTests.ps1
  }
@@ -26,16 +26,22 @@
 	.\build.ps1 -f
  }
  
- Function Build-Configure-Build
+ Function Build-Core
  {
-	bc
-	bb
+	.\build.ps1 -SkipVS14 -SkipVS15
  }
  
- Function Build-Configure-Test
+ Function Configure-Build
  {
-	bc
-	bt
+	Configure
+	Build
+ }
+ 
+ Function Configure-Build-Test
+ {
+	Configure
+	Build
+	Test
  }
  
  Function Git-Clean
@@ -81,12 +87,13 @@
  
  Set-Alias -name path -value Show-Path -description "Pretty print system path"
 
- Set-Alias -name bc -value Build-Configure -description "Run configure.ps1"
- Set-Alias -name bb -value Build-Only-Build -description "Run build.ps1"
- Set-Alias -name bt -value Build-Test -description "Run runTest.ps1"
- Set-Alias -name bf -value Build-Fast -description "Run .\build.ps1 -f"
- Set-Alias -name bcb -value Build-Configure-Build -description "Run .\configure.ps1 and .\build.ps1"
- Set-Alias -name bct -value Build-Configure-Test -description "Run .\configure.ps1 and .\runTest.ps1"
+ Set-Alias -name c -value Configure -description "Run .\configure.ps1"
+ Set-Alias -name b -value Build -description "Run .\build.ps1"
+ Set-Alias -name t -value Test -description "Run .\runTest.ps1"
+ Set-Alias -name bfast -value Build-Fast -description "Run .\build.ps1 -f"
+ Set-Alias -name bcore -value Build-Core -description "Run .\build.ps1 -SkipVS14 -SkipVS15"
+ Set-Alias -name cb -value Configure-Build -description "Run .\configure.ps1 and .\build.ps1"
+ Set-Alias -name cbt -value Configure-Build-Test -description "Run .\configure.ps1, .\build.ps1 .\runTest.ps1"
   
  Set-Alias -name gitc -value Git-Clean -description "Git clean -xdf" 
  Set-Alias -name gitaa -value Git-Add-All -description "Git add -A"
