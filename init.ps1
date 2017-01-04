@@ -1,5 +1,11 @@
 #script to move profile into the right place
 
+[CmdletBinding()]
+param (
+	[Alias('o')]
+    [switch]$overwrite = $false
+)
+
 $docsPath = [Environment]::GetFolderPath("MyDocuments")
 $destFolder = Join-Path $docsPath "WindowsPowerShell"
 $destPath = Join-Path $destFolder "Microsoft.PowerShell_profile.ps1"
@@ -7,8 +13,10 @@ $sourcePath = Join-Path ".\" "Microsoft.PowerShell_profile.ps1"
 
 if (Test-Path $destFolder) {
 	if (Test-Path $destPath) {
-		Write-Host "$destPath already exists. Exiting!"
-		Exit
+		if($overwrite -eq $false){
+			Write-Host "$destPath already exists. Please pass -o switch to over write existing aliases. Exiting!"
+			Exit
+		}
 	}
 }
 else {
