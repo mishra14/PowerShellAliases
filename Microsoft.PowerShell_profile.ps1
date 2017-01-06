@@ -30,6 +30,12 @@ Function Build-Core
 	.\build.ps1 -SkipVS14 -SkipVS15
 }
 
+Function Configure-Build-Core
+{
+	Configure
+	Build-Core
+}
+
 Function Configure-Build
 {
 	Configure
@@ -86,6 +92,7 @@ Set-Alias -name b -value Build -description "Run .\build.ps1"
 Set-Alias -name t -value Test -description "Run .\runTest.ps1"
 Set-Alias -name bfast -value Build-Fast -description "Run .\build.ps1 -f"
 Set-Alias -name bcore -value Build-Core -description "Run .\build.ps1 -SkipVS14 -SkipVS15"
+Set-Alias -name cbcore -value Configure-Build-Core -description "Run  .\configure.ps1; .\build.ps1 -SkipVS14 -SkipVS15"
 Set-Alias -name cb -value Configure-Build -description "Run .\configure.ps1 and .\build.ps1"
 Set-Alias -name cbt -value Configure-Build-Test -description "Run .\configure.ps1, .\build.ps1 .\runTest.ps1"
 
