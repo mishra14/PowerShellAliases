@@ -23,3 +23,4 @@ git clone https://github.com/mishra14/PowerShellAliases.git
 * You need to have power shell installed.
 * I have only tested this on Windows.
 * If you already have a powershell profile then the Init script fails.
+* If you want to over write the existing copy of the file, then use ```.\init.ps1 -o```
