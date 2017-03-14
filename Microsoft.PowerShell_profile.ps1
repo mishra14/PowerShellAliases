@@ -84,6 +84,11 @@ Function Git-Add-All
 	git add -A
 }
 
+Function Kill-MSBuild
+{
+    taskkill /F /IM msbuild.exe 
+}
+
 
 Set-Alias -name path -value Show-Path -description "Pretty print system path"
 
@@ -103,3 +108,5 @@ Set-Alias -name gitd -value Git-Diff -description "Git diff"
 Set-Alias -name gitdd -value Git-Diff-Dev -description "Git diff dev"
 Set-Alias -name gitr -value Git-Reset -description "Git reset"
 Set-Alias -name gitrh -value Git-Reset-Hard -description "Git reset --hard"
+
+Set-Alias -name mskill -value Kill-MSBuild -description "Kill MSBuild processes"
