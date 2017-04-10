@@ -1,4 +1,13 @@
 Set-Location "E:\NuGet.Client"
+Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+
+# Chocolatey profile
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}
+
+Import-Module 'C:\tools\poshgit\dahlbyk-posh-git-a4faccd\src\posh-git.psd1'
 
 Function Show-Path 
 {
@@ -89,6 +98,32 @@ Function Kill-MSBuild
     taskkill /F /IM msbuild.exe 
 }
 
+Function Patch-CLI
+{
+    $cli_path = "E:\cli\artifacts\win10-x64\stage2\sdk\2.0.0-preview1-005722"
+    $command_line_path = "E:\nuget.client\artifacts\NuGet.CommandLine.XPlat\15.0\bin\Debug\netcoreapp1.0"
+
+    Write-Host
+    Write-Host "Source commandline path - $($command_line_path)"
+    Write-Host "Destination cli path - $($cli_path)"
+    Write-Host
+
+    if(-Not (Test-Path $command_line_path)) {
+        Write-Error "$($command_line_path) not found!"
+    }
+
+    if(-Not (Test-Path $cli_path)) {
+        Write-Error "$($cli_path) not found!"
+    }
+
+    Get-ChildItem $command_line_path -Filter *.dll | 
+    Foreach-Object {	
+        $new_position = "$($cli_path)\$($_.BaseName )$($_.Extension )"
+        Write-Host "Moving to - $($new_position)"
+        Copy-Item $_.FullName $new_position
+    }
+}
+
 
 Set-Alias -name path -value Show-Path -description "Pretty print system path"
 
@@ -110,3 +145,5 @@ Set-Alias -name gitr -value Git-Reset -description "Git reset"
 Set-Alias -name gitrh -value Git-Reset-Hard -description "Git reset --hard"
 
 Set-Alias -name mskill -value Kill-MSBuild -description "Kill MSBuild processes"
+
+Set-Alias -name patchcli -value Patch-CLI -description "Move Commandline xplat dlls into cli"
