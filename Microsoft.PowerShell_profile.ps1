@@ -1,5 +1,6 @@
 Set-Location "E:\NuGet.Client"
 Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+Set-Alias dotnetlocal "E:\cli\artifacts\win10-x64\stage2\dotnet.exe"
 
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
@@ -100,22 +101,28 @@ Function Kill-MSBuild
 
 Function Patch-CLI
 {
-    $cli_path = "E:\cli\artifacts\win10-x64\stage2\sdk\2.0.0-preview1-005722"
+    $cli_artifacts_path = "E:\cli\artifacts\win10-x64\stage2\sdk"
     $command_line_path = "E:\nuget.client\artifacts\NuGet.CommandLine.XPlat\15.0\bin\Debug\netcoreapp1.0"
 
+    if(-Not (Test-Path $command_line_path)) {
+        Write-Error "$($command_line_path) not found!"
+        return;
+    }
+
+    if(-Not (Test-Path $cli_artifacts_path)) {
+        Write-Error "$($cli_artifacts_path) not found!"
+        return;
+    }
+    
+    $cli_path = (Get-ChildItem $cli_artifacts_path)[0].FullName
+    
     Write-Host
     Write-Host "Source commandline path - $($command_line_path)"
     Write-Host "Destination cli path - $($cli_path)"
     Write-Host
+    
 
-    if(-Not (Test-Path $command_line_path)) {
-        Write-Error "$($command_line_path) not found!"
-    }
-
-    if(-Not (Test-Path $cli_path)) {
-        Write-Error "$($cli_path) not found!"
-    }
-
+    
     Get-ChildItem $command_line_path -Filter *.dll | 
     Foreach-Object {	
         $new_position = "$($cli_path)\$($_.BaseName )$($_.Extension )"
