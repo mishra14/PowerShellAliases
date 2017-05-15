@@ -1,13 +1,14 @@
 Set-Location "E:\NuGet.Client"
 Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
 Set-Alias dotnetlocal "E:\cli\artifacts\win10-x64\stage2\dotnet.exe"
+Set-Alias xunitconsole "E:\nuget.client\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe"
 
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
   Import-Module "$ChocolateyProfile"
 }
-
+# posh-git
 Import-Module 'C:\tools\poshgit\dahlbyk-posh-git-a4faccd\src\posh-git.psd1'
 
 Function Show-Path 
@@ -20,7 +21,7 @@ Function Configure
 	.\configure.ps1
 }
 
-Function Build
+Function Build-Full
 {
 	.\build.ps1
 }
@@ -30,33 +31,26 @@ Function Test
 	.\runTests.ps1
 }
 
-Function Build-Fast
+Function Build-VS15
 {
-	.\build.ps1 -f
+	.\build.ps1 -SkipVS14 -SkipUnitTest 
 }
 
-Function Build-Core
+Function Build-VS15-Fast
 {
-	.\build.ps1 -SkipVS14 -SkipVS15
-}
-
-Function Configure-Build-Core
-{
-	Configure
-	Build-Core
+	.\build.ps1 -SkipVS14 -SkipUnitTest -Fast
 }
 
 Function Configure-Build
 {
 	Configure
-	Build
+	Build-VS15
 }
 
-Function Configure-Build-Test
+Function Configure-Build-Fast
 {
 	Configure
-	Build
-	Test
+	Build-VS15-Fast
 }
 
 Function Git-Clean
@@ -135,13 +129,12 @@ Function Patch-CLI
 Set-Alias -name path -value Show-Path -description "Pretty print system path"
 
 Set-Alias -name c -value Configure -description "Run .\configure.ps1"
-Set-Alias -name b -value Build -description "Run .\build.ps1"
+Set-Alias -name b -value Build-VS15 -description "Run .\build.ps1 -SkipVS14 -SkipUnitTest"
+Set-Alias -name bfast -value Build-VS15-Fast -description "Run .\build.ps1 -SkipVS14 -SkipUnitTest -Fast"
+Set-Alias -name bfull -value Build -description "Run .\build.ps1"
 Set-Alias -name t -value Test -description "Run .\runTest.ps1"
-Set-Alias -name bfast -value Build-Fast -description "Run .\build.ps1 -f"
-Set-Alias -name bcore -value Build-Core -description "Run .\build.ps1 -SkipVS14 -SkipVS15"
-Set-Alias -name cbcore -value Configure-Build-Core -description "Run  .\configure.ps1; .\build.ps1 -SkipVS14 -SkipVS15"
-Set-Alias -name cb -value Configure-Build -description "Run .\configure.ps1 and .\build.ps1"
-Set-Alias -name cbt -value Configure-Build-Test -description "Run .\configure.ps1, .\build.ps1 .\runTest.ps1"
+Set-Alias -name cb -value Configure-Build -description "Run .\configure.ps1; .\build.ps1 -SkipVS14 -SkipUnitTest"
+Set-Alias -name cbf -value Configure-Build-Fast -description "Run .\configure.ps1; .\build.ps1 -SkipVS14 -SkipUnitTest -Fast"
 
 Set-Alias -name gitc -value Git-Clean -description "Git clean -xdf" 
 Set-Alias -name gitaa -value Git-Add-All -description "Git add -A"
