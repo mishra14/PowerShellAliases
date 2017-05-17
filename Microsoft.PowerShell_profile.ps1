@@ -1,11 +1,24 @@
-Set-Location "E:\NuGet.Client"
-Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-Set-Alias dotnetlocal "E:\cli\artifacts\win10-x64\stage2\dotnet.exe"
-Set-Alias xunitconsole "E:\nuget.client\packages\xunit.runner.console.2.2.0\tools\xunit.console.exe"
+if ($env:computername -eq "MISHRA14-LAPTOP")
+{
+	Write-Host "Setting profile for mishra14-laptop"
+	Set-Location "C:\Users\anmishr\Documents\GitHub\NuGet.Client"
+	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\artifacts\win10-x64\stage2\dotnet.exe"
+	Set-Alias xunitconsole "C:\Users\anmishr\Documents\GitHub\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
+}
+else
+{
+	Write-Host "Setting profile for mishra14-desktop"
+	Set-Location "E:\NuGet.Client"
+	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+	Set-Alias dotnetlocal "E:\cli\artifacts\win10-x64\stage2\dotnet.exe"
+	Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
+}
 
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile)) {
+if (Test-Path($ChocolateyProfile)) 
+{
   Import-Module "$ChocolateyProfile"
 }
 # posh-git

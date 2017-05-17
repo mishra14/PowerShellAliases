@@ -2,8 +2,8 @@
 
 [CmdletBinding()]
 param (
-	[Alias('o')]
-    [switch]$overwrite = $false
+	[Alias('f')]
+    [switch]$force = $false
 )
 
 $docsPath = [Environment]::GetFolderPath("MyDocuments")
@@ -13,8 +13,8 @@ $sourcePath = Join-Path ".\" "Microsoft.PowerShell_profile.ps1"
 
 if (Test-Path $destFolder) {
 	if (Test-Path $destPath) {
-		if($overwrite -eq $false){
-			Write-Host "$destPath already exists. Please pass -o switch to over write existing aliases. Exiting!"
+		if($force -eq $false){
+			Write-Host "$destPath already exists. Please pass -f|-force switch to over write existing aliases. Exiting!"
 			Exit
 		}
 	}
