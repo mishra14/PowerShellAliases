@@ -1,7 +1,8 @@
 if ($env:computername -eq "MISHRA14-LAPTOP")
 {
 	Write-Host "Setting profile for mishra14-laptop"
-	Set-Location "C:\Users\anmishr\Documents\GitHub\NuGet.Client"
+    $nugetClientRoot = "C:\Users\anmishr\Documents\GitHub\NuGet.Client"
+	Set-Location $nugetClientRoot
 	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
 	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\artifacts\win10-x64\stage2\dotnet.exe"
 	Set-Alias xunitconsole "C:\Users\anmishr\Documents\GitHub\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
@@ -9,7 +10,8 @@ if ($env:computername -eq "MISHRA14-LAPTOP")
 else
 {
 	Write-Host "Setting profile for mishra14-desktop"
-	Set-Location "E:\NuGet.Client"
+    $nugetClientRoot = "E:\NuGet.Client"
+	Set-Location $nugetClientRoot
 	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
 	Set-Alias dotnetlocal "E:\cli\artifacts\win10-x64\stage2\dotnet.exe"
 	Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
@@ -23,6 +25,15 @@ if (Test-Path($ChocolateyProfile))
 }
 # posh-git
 Import-Module 'C:\tools\poshgit\dahlbyk-posh-git-a4faccd\src\posh-git.psd1'
+
+Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
+{    
+    $nugetBuildTaskPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks"
+    $nugetBuildTaskDllPath = Join-Path $nugetClientRoot "artifacts\NuGet.Build.Tasks\15.0\bin\Debug\net45\NuGet.Build.Tasks.dll"
+    $nugetTargetsPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks\NuGet.targets"
+    Write-Host "msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra"    
+    & msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
+} 
 
 Function Show-Path 
 {
