@@ -12,7 +12,7 @@ else
 	Write-Host "Setting profile for mishra14-desktop"
     $nugetClientRoot = "E:\NuGet.Client"
 	Set-Location $nugetClientRoot
-	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017Stable\Enterprise\MSBuild\15.0\bin\msbuild.exe"
 	Set-Alias dotnetlocal "E:\cli\artifacts\win10-x64\stage2\dotnet.exe"
 	Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
 }
