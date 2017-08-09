@@ -1,8 +1,9 @@
 if ($env:computername -eq "MISHRA14-LAPTOP")
 {
 	Write-Host "Setting profile for mishra14-laptop"
+	
     $nugetClientRoot = "C:\Users\anmishr\Documents\GitHub\NuGet.Client"
-	Set-Location $nugetClientRoot
+	$cliRoot = "C:\Users\anmishr\Documents\GitHub\cli"
 	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
 	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\artifacts\win10-x64\stage2\dotnet.exe"
 	Set-Alias xunitconsole "C:\Users\anmishr\Documents\GitHub\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
@@ -10,12 +11,16 @@ if ($env:computername -eq "MISHRA14-LAPTOP")
 else
 {
 	Write-Host "Setting profile for mishra14-desktop"
+	
     $nugetClientRoot = "E:\NuGet.Client"
-	Set-Location $nugetClientRoot
+	$cliRoot = "E:\cli"
 	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017Stable\Enterprise\MSBuild\15.0\bin\msbuild.exe"
 	Set-Alias dotnetlocal "E:\cli\artifacts\win10-x64\stage2\dotnet.exe"
 	Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
 }
+
+# Default location to NuGet root
+Set-Location $nugetClientRoot
 
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
@@ -119,29 +124,29 @@ Function Kill-MSBuild
 
 Function Patch-CLI
 {
-    $cli_artifacts_path = "E:\cli\artifacts\win10-x64\stage2\sdk"
-    $command_line_path = "E:\nuget.client\artifacts\NuGet.CommandLine.XPlat\15.0\bin\Debug\netcoreapp1.0"
+    $cliArtifactsPath = [System.IO.Path]::Combine($cliRoot, 'artifacts', 'win10-x64', 'stage2', 'sdk')
+    $nugetXplatArtifactsPath = [System.IO.Path]::Combine($nugetClientRoot, 'artifacts', 'NuGet.CommandLine.XPlat', '15.0', 'bin', 'Debug', 'netcoreapp1.0')
 
-    if(-Not (Test-Path $command_line_path)) {
-        Write-Error "$($command_line_path) not found!"
+    if(-Not (Test-Path $nugetXplatArtifactsPath)) {
+        Write-Error "$($nugetXplatArtifactsPath) not found!"
         return;
     }
 
-    if(-Not (Test-Path $cli_artifacts_path)) {
-        Write-Error "$($cli_artifacts_path) not found!"
+    if(-Not (Test-Path $cliArtifactsPath)) {
+        Write-Error "$($cliArtifactsPath) not found!"
         return;
     }
     
-    $cli_path = (Get-ChildItem $cli_artifacts_path)[0].FullName
+    $cli_path = (Get-ChildItem $cliArtifactsPath)[0].FullName
     
     Write-Host
-    Write-Host "Source commandline path - $($command_line_path)"
+    Write-Host "Source commandline path - $($nugetXplatArtifactsPath)"
     Write-Host "Destination cli path - $($cli_path)"
     Write-Host
     
 
     
-    Get-ChildItem $command_line_path -Filter *.dll | 
+    Get-ChildItem $nugetXplatArtifactsPath -Filter *.dll | 
     Foreach-Object {	
         $new_position = "$($cli_path)\$($_.BaseName )$($_.Extension )"
         Write-Host "Moving to - $($new_position)"
