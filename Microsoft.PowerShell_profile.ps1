@@ -62,12 +62,12 @@ Function Test
 
 Function Build-VS15
 {
-	.\build.ps1 -SkipVS14 -SkipUnitTest 
+	.\build.ps1 -SkipUnitTest 
 }
 
 Function Build-VS15-Fast
 {
-	.\build.ps1 -SkipVS14 -SkipUnitTest -Fast
+	.\build.ps1 -SkipUnitTest -Fast
 }
 
 Function Configure-Build
