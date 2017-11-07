@@ -122,6 +122,11 @@ Function Kill-MSBuild
     taskkill /F /IM msbuild.exe 
 }
 
+Function Kill-GPG
+{
+    taskkill /F /IM gpg*
+}
+
 Function Patch-CLI
 {
     $cliArtifactsPath = [System.IO.Path]::Combine($cliRoot, 'artifacts', 'win10-x64', 'stage2', 'sdk')
@@ -174,5 +179,7 @@ Set-Alias -name gitr -value Git-Reset -description "Git reset"
 Set-Alias -name gitrh -value Git-Reset-Hard -description "Git reset --hard"
 
 Set-Alias -name mskill -value Kill-MSBuild -description "Kill MSBuild processes"
+
+Set-Alias -name gpgkill -value Kill-GPG -description "Kill GPG processes"
 
 Set-Alias -name patchcli -value Patch-CLI -description "Move Commandline xplat dlls into cli"
