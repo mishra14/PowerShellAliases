@@ -7,16 +7,30 @@ git clone https://github.com/mishra14/PowerShellAliases.git
 .\init.ps1
 ```
 
-# Examples
+# Git Examples
 
-| Alias         | Equivalent Command    |
-| ------------- |:---------------------:|
-| gits          | git status            |
-| gitc          | git commit            |
-| gitr          | git reset             |
-| gitrh         | git reset --hard      |
-| gitd          | git diff              |
-| gitaa         | git add -A            |
+| Alias          | Equivalent Command    |
+| -------------- |:---------------------:|
+| gits           | git status            |
+| gitc           | git commit            |
+| gitr           | git reset             |
+| gitrh          | git reset --hard      |
+| gitd           | git diff              |
+| gitaa          | git add -A            |
+| mskill         | taskkill /F /IM msbuild.exe  |
+
+# NuGet Examples
+
+| Alias          | Equivalent Command    |
+| -------------- |:---------------------:|
+| c              | .\configure.ps1       |
+| bfast          | .\build.ps1 -SkipUnitTest -Fast   |
+| bfull          | .\build.ps1 -SkipUnitTest     |
+| cb             | .\configure.ps1; .\build.ps1 -SkipUnitTest   |
+| cbf            | .\configure.ps1; .\build.ps1 -SkipUnitTest -Fast   |
+| mskill         | taskkill /F /IM msbuild.exe  |
+| patchcli       | patch local cli with NuGet.CommandLine.dll  |
+
 
 # Notes
 
