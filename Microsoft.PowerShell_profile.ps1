@@ -159,7 +159,7 @@ Function Patch-CLI
     }
 }
 
-Function RunTestsWithFilter([switch] $restore, [switch] $build, $filter)
+Function Run-TestsWithFilter([switch] $restore, [switch] $build, $filter)
 {    
     if ($restore)
     {
