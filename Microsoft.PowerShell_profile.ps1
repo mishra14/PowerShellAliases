@@ -38,7 +38,7 @@ Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
     $nugetTargetsPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks\NuGet.targets"
     Write-Host "msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra"    
     & msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
-} 
+}
 
 Function Show-Path 
 {
@@ -157,6 +157,21 @@ Function Patch-CLI
         Write-Host "Moving to - $($new_position)"
         Copy-Item $_.FullName $new_position
     }
+}
+
+Function RunTestsWithFilter([switch] $restore, [switch] $build, $filter)
+{    
+    if ($restore)
+    {
+        & msbuild /v:m /m /t:restore
+    }
+
+    if ($build)
+    {
+        & msbuild /v:m /m 
+    }
+
+    & dotnetlocal test --no-build --filter DisplayName~$filter
 }
 
 
