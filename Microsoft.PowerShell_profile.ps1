@@ -159,8 +159,36 @@ Function Patch-CLI
     }
 }
 
-Function Run-TestsWithFilter([switch] $restore, [switch] $build, $filter)
+Function Run-TestsWithFilter
 {    
+  <#
+  .SYNOPSIS
+  Restores, Builds and runs tests.
+  .DESCRIPTION
+  Restores, Builds and runs tests using dotnet and filtering of scope.
+  .EXAMPLE
+  Run-TestsWithFilter TestMethodName -restore -build
+  .EXAMPLE
+  Run-TestsWithFilter TestMethodName -b
+  .PARAMETER filter
+  The filter to be passed to dotnet test --filter option.
+  .PARAMETER restore
+  Restores the project before running tests.
+  .PARAMETER build
+  Builds the project before running tests.
+  #>
+  [CmdletBinding()]
+  param
+  (
+    [Parameter(Mandatory=$True)]
+    [Alias('f')]
+    [string]$filter,
+    [Alias('r')]
+    [switch]$restore,
+    [Alias('b')]
+    [switch]$build
+  )
+
     if ($restore)
     {
         & msbuild /v:m /m /t:restore
