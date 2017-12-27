@@ -118,6 +118,16 @@ Function Kill-GPG
     taskkill /F /IM gpg*
 }
 
+Function Set-CI-EnvironmentVariable
+{
+    $env:CI = $True
+}
+
+Function Reset-CI-EnvironmentVariable
+{
+    $env:CI = $False
+}
+
 Function Patch-CLI
 {
     $cliArtifactsPath = [System.IO.Path]::Combine($cliRoot, 'artifacts', 'win10-x64', 'stage2', 'sdk')
@@ -148,6 +158,20 @@ Function Patch-CLI
         Write-Host "Moving to - $($new_position)"
         Copy-Item $_.FullName $new_position
     }
+}
+
+Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
+{   
+    if ([string]::IsNullOrEmpty($target))
+    {
+        Write-Host "Defaulting to restore target..."
+        $target = "restore"
+    } 
+
+    $nugetBuildTaskDllPath = Join-Path $nugetClientRoot "artifacts\NuGet.Build.Tasks\15.0\bin\Debug\net46\NuGet.Build.Tasks.dll"
+    $nugetTargetsPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks\NuGet.targets"
+    Write-Host "msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra"    
+    & msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
 }
 
 Function Run-TestsWithFilter
@@ -190,43 +214,31 @@ Function Run-TestsWithFilter
         & msbuild /v:m /m 
     }
 
-    & dotnetlocal test --no-build --filter DisplayName~$filter
+    & dotnet test --no-build --filter DisplayName~$filter
 }
 
-Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
-{   
-    if ([string]::IsNullOrEmpty($target))
-    {
-        Write-Host "Defaulting to restore target..."
-        $target = "restore"
-    } 
+Set-Alias -Name path -value Show-Path -description "Pretty print system path"
 
-    $nugetBuildTaskDllPath = Join-Path $nugetClientRoot "artifacts\NuGet.Build.Tasks\15.0\bin\Debug\net46\NuGet.Build.Tasks.dll"
-    $nugetTargetsPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks\NuGet.targets"
-    Write-Host "msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra"    
-    & msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
-}
+Set-Alias -Name c -value Configure -description "Run .\configure.ps1"
+Set-Alias -Name b -value Build-VS15 -description "Run .\build.ps1 -SkipVS14 -SkipUnitTest"
+Set-Alias -Name bfast -value Build-VS15-Fast -description "Run .\build.ps1 -SkipVS14 -SkipUnitTest -Fast"
+Set-Alias -Name bfull -value Build -description "Run .\build.ps1"
+Set-Alias -Name t -value Test -description "Run .\runTest.ps1"
+Set-Alias -Name cb -value Configure-Build -description "Run .\configure.ps1; .\build.ps1 -SkipVS14 -SkipUnitTest"
+Set-Alias -Name cbf -value Configure-Build-Fast -description "Run .\configure.ps1; .\build.ps1 -SkipVS14 -SkipUnitTest -Fast"
 
-Set-Alias -name path -value Show-Path -description "Pretty print system path"
+Set-Alias -Name gitc -value Git-Clean -description "Git clean -xdf" 
+Set-Alias -Name gitaa -value Git-Add-All -description "Git add -A"
+Set-Alias -Name gits -value Git-Status -description "Git status"
+Set-Alias -Name gitd -value Git-Diff -description "Git diff"
+Set-Alias -Name gitdd -value Git-Diff-Dev -description "Git diff dev"
+Set-Alias -Name gitr -value Git-Reset -description "Git reset"
+Set-Alias -Name gitrh -value Git-Reset-Hard -description "Git reset --hard"
 
-Set-Alias -name c -value Configure -description "Run .\configure.ps1"
-Set-Alias -name b -value Build-VS15 -description "Run .\build.ps1 -SkipVS14 -SkipUnitTest"
-Set-Alias -name bfast -value Build-VS15-Fast -description "Run .\build.ps1 -SkipVS14 -SkipUnitTest -Fast"
-Set-Alias -name bfull -value Build -description "Run .\build.ps1"
-Set-Alias -name t -value Test -description "Run .\runTest.ps1"
-Set-Alias -name cb -value Configure-Build -description "Run .\configure.ps1; .\build.ps1 -SkipVS14 -SkipUnitTest"
-Set-Alias -name cbf -value Configure-Build-Fast -description "Run .\configure.ps1; .\build.ps1 -SkipVS14 -SkipUnitTest -Fast"
+Set-Alias -Name mskill -value Kill-MSBuild -description "Kill MSBuild processes"
+Set-Alias -Name gpgkill -value Kill-GPG -description "Kill GPG processes"
 
-Set-Alias -name gitc -value Git-Clean -description "Git clean -xdf" 
-Set-Alias -name gitaa -value Git-Add-All -description "Git add -A"
-Set-Alias -name gits -value Git-Status -description "Git status"
-Set-Alias -name gitd -value Git-Diff -description "Git diff"
-Set-Alias -name gitdd -value Git-Diff-Dev -description "Git diff dev"
-Set-Alias -name gitr -value Git-Reset -description "Git reset"
-Set-Alias -name gitrh -value Git-Reset-Hard -description "Git reset --hard"
+Set-Alias -Name patchcli -value Patch-CLI -description "Move Commandline xplat dlls into cli"
 
-Set-Alias -name mskill -value Kill-MSBuild -description "Kill MSBuild processes"
-
-Set-Alias -name gpgkill -value Kill-GPG -description "Kill GPG processes"
-
-Set-Alias -name patchcli -value Patch-CLI -description "Move Commandline xplat dlls into cli"
+Set-Alias -Name setci -Value Set-CI-EnvironmentVariable -Description 'Set $env:CI to True'
+Set-Alias -Name resetci -Value Reset-CI-EnvironmentVariable -Description 'Set $env:CI to False'
