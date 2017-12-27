@@ -5,7 +5,7 @@ if ($env:computername -eq "MISHRA14-LAPTOP")
     $nugetClientRoot = "C:\Users\anmishr\Documents\GitHub\NuGet.Client"
 	$cliRoot = "C:\Users\anmishr\Documents\GitHub\cli"
 	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\artifacts\win10-x64\stage2\dotnet.exe"
+	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\bin\2\win10-x64\dotnet\dotnet.exe"
 	Set-Alias xunitconsole "C:\Users\anmishr\Documents\GitHub\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
 }
 else
@@ -15,7 +15,7 @@ else
     $nugetClientRoot = "E:\NuGet.Client"
 	$cliRoot = "E:\cli"
 	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017Stable\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-	Set-Alias dotnetlocal "E:\cli\artifacts\win10-x64\stage2\dotnet.exe"
+	Set-Alias dotnetlocal "E:\cli\bin\2\win10-x64\dotnet\dotnet.exe"
 	Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
 }
 
