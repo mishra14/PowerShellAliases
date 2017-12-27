@@ -31,15 +31,6 @@ if (Test-Path($ChocolateyProfile))
 # posh-git
 Import-Module 'C:\tools\poshgit\dahlbyk-posh-git-a4faccd\src\posh-git.psd1'
 
-Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
-{    
-    $nugetBuildTaskPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks"
-    $nugetBuildTaskDllPath = Join-Path $nugetClientRoot "artifacts\NuGet.Build.Tasks\15.0\bin\Debug\net46\NuGet.Build.Tasks.dll"
-    $nugetTargetsPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks\NuGet.targets"
-    Write-Host "msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra"    
-    & msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
-}
-
 Function Show-Path 
 {
 	echo ($env:Path).Replace(';',"`n")
@@ -202,6 +193,19 @@ Function Run-TestsWithFilter
     & dotnetlocal test --no-build --filter DisplayName~$filter
 }
 
+Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
+{   
+    if ([string]::IsNullOrEmpty($target))
+    {
+        Write-Host "Defaulting to restore target..."
+        $target = "restore"
+    } 
+
+    $nugetBuildTaskDllPath = Join-Path $nugetClientRoot "artifacts\NuGet.Build.Tasks\15.0\bin\Debug\net46\NuGet.Build.Tasks.dll"
+    $nugetTargetsPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks\NuGet.targets"
+    Write-Host "msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra"    
+    & msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
+}
 
 Set-Alias -name path -value Show-Path -description "Pretty print system path"
 
