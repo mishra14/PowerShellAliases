@@ -217,6 +217,39 @@ Function Run-TestsWithFilter
     & dotnet test --no-build --filter DisplayName~$filter
 }
 
+Function Git-MergeWithTheirs
+{    
+  <#
+  .SYNOPSIS
+  Merges the a branch into another branch.
+  .DESCRIPTION
+  Merges the a branch into another branch with resolving all conflicts in the other branch's favor.
+  .EXAMPLE
+  Git-MergeWithTheirs dev dev-anmishr-test
+  .PARAMETER primaryBranch
+  The primary branch which should be merged into.
+  .PARAMETER secondaryBranch
+  The secondary branch which should be merged into the primary branch.
+  #>
+  [CmdletBinding()]
+  param
+  (
+    [Parameter(Mandatory=$True)]
+    [Alias('p')]
+    [string]$primaryBranch,
+    [Parameter(Mandatory=$True)]
+    [Alias('s')]
+    [string]$secondaryBranch
+  )
+
+    Write-Host "git checkout $secondaryBranch"
+    git checkout $secondaryBranch
+    Write-Host "git checkout $primaryBranch"
+    git checkout $primaryBranch
+    Write-Host "git merge -X theirs"
+    git merge -X theirs $secondaryBranch
+}
+
 Set-Alias -Name path -value Show-Path -description "Pretty print system path"
 
 Set-Alias -Name c -value Configure -description "Run .\configure.ps1"
