@@ -217,7 +217,7 @@ Function Run-TestsWithFilter
     & dotnet test --no-build --filter DisplayName~$filter
 }
 
-Function Git-MergeWithTheirs
+Function Git-MergeWithTheirChanges
 {    
   <#
   .SYNOPSIS
@@ -225,7 +225,7 @@ Function Git-MergeWithTheirs
   .DESCRIPTION
   Merges the a branch into another branch with resolving all conflicts in the other branch's favor.
   .EXAMPLE
-  Git-MergeWithTheirs dev dev-anmishr-test
+  Git-MergeWithTheirChanges dev dev-anmishr-test
   .PARAMETER primaryBranch
   The primary branch which should be merged into.
   .PARAMETER secondaryBranch
