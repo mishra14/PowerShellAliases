@@ -235,11 +235,13 @@ Function Git-MergeWithTheirChanges
   param
   (
     [Parameter(Mandatory=$True)]
-    [Alias('p')]
+    [Alias('d')]
     [string]$primaryBranch,
     [Parameter(Mandatory=$True)]
     [Alias('s')]
-    [string]$secondaryBranch
+    [string]$secondaryBranch,
+    [Alias('p')]
+    [switch]$push
   )
 
     Write-Host "git checkout $secondaryBranch"
@@ -248,6 +250,12 @@ Function Git-MergeWithTheirChanges
     git checkout $primaryBranch
     Write-Host "git merge -X theirs"
     git merge -X theirs $secondaryBranch
+
+    if ($push)
+    {
+        Write-Host "git push"
+        git push
+    }
 }
 
 Set-Alias -Name path -value Show-Path -description "Pretty print system path"
