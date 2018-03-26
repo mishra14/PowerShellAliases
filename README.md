@@ -36,7 +36,7 @@ git clone https://github.com/mishra14/PowerShellAliases.git
 
 | Alias          | Equivalent Command    |
 | -------------- |:---------------------:|
-| Run-NuGetTargetsCustom | run a custom target in msbuild |
+| Run-NuGetTargetsCustom | Run a custom target in msbuild |
 | Run-TestsWithFilter    | Run a custom set of tests      |
 
 # Notes

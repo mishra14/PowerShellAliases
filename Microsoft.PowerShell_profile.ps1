@@ -8,6 +8,16 @@ if ($env:computername -eq "MISHRA14-LAPTOP")
 	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\bin\2\win10-x64\dotnet\dotnet.exe"
 	Set-Alias xunitconsole "C:\Users\anmishr\Documents\GitHub\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
 }
+elseif ($env:computername -eq "MISHRA14-MAC")
+{
+	Write-Host "Setting profile for mishra14-mac"
+	
+    $nugetClientRoot = "C:\Users\anmishr\Documents\git\NuGet.Client"
+	$cliRoot = "C:\Users\anmishr\Documents\git\cli"
+	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\git\cli\bin\2\win10-x64\dotnet\dotnet.exe"
+	Set-Alias xunitconsole "C:\Users\anmishr\Documents\git\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
+}
 else
 {
 	Write-Host "Setting profile for mishra14-desktop"
