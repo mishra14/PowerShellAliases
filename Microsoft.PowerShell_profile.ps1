@@ -272,9 +272,9 @@ Function Git-MergeWithTheirChanges
 Set-Alias -Name path -value Show-Path -description "Pretty print system path"
 
 Set-Alias -Name c -value Configure -description "Run .\configure.ps1"
-Set-Alias -Name b -value Build-VS15 -description "Run .\build.ps1 -SkipVS14 -SkipUnitTest"
-Set-Alias -Name bfast -value Build-VS15-Fast -description "Run .\build.ps1 -SkipVS14 -SkipUnitTest -Fast"
-Set-Alias -Name bfull -value Build -description "Run .\build.ps1"
+Set-Alias -Name b -value Build-VS15 -description "Run .\build.ps1 -SkipUnitTest"
+Set-Alias -Name bfast -value Build-VS15-Fast -description "Run .\build.ps1 -SkipUnitTest -Fast"
+Set-Alias -Name bfull -value Build-Full -description "Run .\build.ps1"
 Set-Alias -Name t -value Test -description "Run .\runTest.ps1"
 Set-Alias -Name cb -value Configure-Build -description "Run .\configure.ps1; .\build.ps1 -SkipVS14 -SkipUnitTest"
 Set-Alias -Name cbf -value Configure-Build-Fast -description "Run .\configure.ps1; .\build.ps1 -SkipVS14 -SkipUnitTest -Fast"
