@@ -166,6 +166,7 @@ Function Patch-CLI
     Get-ChildItem $nugetXplatArtifactsPath -Filter *.dll | 
     Foreach-Object {	
         $new_position = "$($cli_path)\$($_.BaseName )$($_.Extension )"
+        
         Write-Host "Moving to - $($new_position)"
         Copy-Item $_.FullName $new_position
     }
@@ -181,6 +182,7 @@ Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
 
     $nugetBuildTaskDllPath = Join-Path $nugetClientRoot "artifacts\NuGet.Build.Tasks\15.0\bin\Debug\net46\NuGet.Build.Tasks.dll"
     $nugetTargetsPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks\NuGet.targets"
+
     Write-Host "msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra"    
     & msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
 }
@@ -217,14 +219,17 @@ Function Run-TestsWithFilter
 
     if ($restore)
     {
+        Write-Host "msbuild /v:m /m /t:restore"  
         & msbuild /v:m /m /t:restore
     }
 
     if ($build)
     {
-        & msbuild /v:m /m 
+        Write-Host "msbuild /v:m /m"  
+        & msbuild /v:m /m
     }
 
+    Write-Host "& dotnet test --no-build --filter DisplayName~$filter"   
     & dotnet test --no-build --filter DisplayName~$filter
 }
 
@@ -257,8 +262,10 @@ Function Git-MergeWithTheirChanges
 
     Write-Host "git checkout $secondaryBranch"
     git checkout $secondaryBranch
+
     Write-Host "git checkout $primaryBranch"
     git checkout $primaryBranch
+
     Write-Host "git merge -X theirs"
     git merge -X theirs $secondaryBranch
 
