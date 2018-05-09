@@ -1,31 +1,31 @@
 if ($env:computername -eq "MISHRA14-LAPTOP")
 {
-	Write-Host "Setting profile for mishra14-laptop"
+    Write-Host "Setting profile for mishra14-laptop"
 	
     $nugetClientRoot = "C:\Users\anmishr\Documents\GitHub\NuGet.Client"
-	$cliRoot = "C:\Users\anmishr\Documents\GitHub\cli"
-	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\bin\2\win10-x64\dotnet\dotnet.exe"
-	Set-Alias xunitconsole "C:\Users\anmishr\Documents\GitHub\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
+    $cliRoot = "C:\Users\anmishr\Documents\GitHub\cli"
+    Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+    Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\bin\2\win10-x64\dotnet\dotnet.exe"
+    Set-Alias xunitconsole "C:\Users\anmishr\Documents\GitHub\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
 }
 elseif ($env:computername -eq "MISHRA14-MAC")
 {
-	Write-Host "Setting profile for mishra14-mac"
+    Write-Host "Setting profile for mishra14-mac"
 	
     $nugetClientRoot = "C:\Users\anmishr\Documents\git\NuGet.Client"
-	$cliRoot = "C:\Users\anmishr\Documents\git\cli"
-	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-	Set-Alias dotnetlocal "C:\Users\anmishr\Documents\git\cli\bin\2\win10-x64\dotnet\dotnet.exe"
-	Set-Alias xunitconsole "C:\Users\anmishr\Documents\git\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
+    $cliRoot = "C:\Users\anmishr\Documents\git\cli"
+    Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+    Set-Alias dotnetlocal "C:\Users\anmishr\Documents\git\cli\bin\2\win10-x64\dotnet\dotnet.exe"
+    Set-Alias xunitconsole "C:\Users\anmishr\Documents\git\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
 }
 else
 {
-	Write-Host "Setting profile for mishra14-desktop"
+    Write-Host "Setting profile for mishra14-desktop"
 	
     $nugetClientRoot = "E:\NuGet.Client"
-	$cliRoot = "E:\cli"
-	Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017Stable\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-	Set-Alias dotnetlocal "E:\cli\bin\2\win10-x64\dotnet\dotnet.exe"
+    $cliRoot = "E:\cli"
+    Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017Stable\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+    Set-Alias dotnetlocal "E:\cli\bin\2\win10-x64\dotnet\dotnet.exe"
     Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
     Set-Alias nuget "F:\paths\NuGet.exe"
 }
@@ -35,88 +35,88 @@ Set-Location $nugetClientRoot
 
 # Chocolatey profile
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-if (Test-Path($ChocolateyProfile)) 
+if (Test-Path($ChocolateyProfile))
 {
-  Import-Module "$ChocolateyProfile"
+    Import-Module "$ChocolateyProfile"
 }
 # posh-git
 Import-Module 'C:\tools\poshgit\dahlbyk-posh-git-a4faccd\src\posh-git.psd1'
 
-Function Show-Path 
+Function Show-Path
 {
-	echo ($env:Path).Replace(';',"`n")
+    echo ($env:Path).Replace(';', "`n")
 }
 
 Function Configure
 {
-	.\configure.ps1
+    .\configure.ps1
 }
 
 Function Build-Full
 {
-	.\build.ps1
+    .\build.ps1
 }
 
 Function Test
 {
-	.\runTests.ps1
+    .\runTests.ps1
 }
 
 Function Build-VS15
 {
-	.\build.ps1 -SkipUnitTest 
+    .\build.ps1 -SkipUnitTest 
 }
 
 Function Build-VS15-Fast
 {
-	.\build.ps1 -SkipUnitTest -Fast
+    .\build.ps1 -SkipUnitTest -Fast
 }
 
 Function Configure-Build
 {
-	Configure
-	Build-VS15
+    Configure
+    Build-VS15
 }
 
 Function Configure-Build-Fast
 {
-	Configure
-	Build-VS15-Fast
+    Configure
+    Build-VS15-Fast
 }
 
 Function Git-Clean
 {
-	git clean -xdf
+    git clean -xdf
 }
 
 Function Git-Status
 {
-	git status
+    git status
 } 
 
 Function Git-Diff
 {
-	git diff
+    git diff
 } 
 
 Function Git-Diff-Dev
 {
-	git diff dev
+    git diff dev
 } 
 
 Function Git-Reset
 {
-	git reset
+    git reset
 } 
 
 Function Git-Reset-Hard
 {
-	git reset --hard
+    git reset --hard
 }
 
 Function Git-Add-All
 {
-	git add -A
+    git add -A
 }
 
 Function Kill-MSBuild
@@ -144,12 +144,14 @@ Function Patch-CLI
     $cliArtifactsPath = [System.IO.Path]::Combine($cliRoot, 'artifacts', 'win10-x64', 'stage2', 'sdk')
     $nugetXplatArtifactsPath = [System.IO.Path]::Combine($nugetClientRoot, 'artifacts', 'NuGet.CommandLine.XPlat', '15.0', 'bin', 'Debug', 'netcoreapp1.0')
 
-    if(-Not (Test-Path $nugetXplatArtifactsPath)) {
+    if (-Not (Test-Path $nugetXplatArtifactsPath))
+    {
         Write-Error "$($nugetXplatArtifactsPath) not found!"
         return;
     }
 
-    if(-Not (Test-Path $cliArtifactsPath)) {
+    if (-Not (Test-Path $cliArtifactsPath))
+    {
         Write-Error "$($cliArtifactsPath) not found!"
         return;
     }
@@ -164,7 +166,7 @@ Function Patch-CLI
 
     
     Get-ChildItem $nugetXplatArtifactsPath -Filter *.dll | 
-    Foreach-Object {	
+        Foreach-Object {	
         $new_position = "$($cli_path)\$($_.BaseName )$($_.Extension )"
         
         Write-Host "Moving to - $($new_position)"
@@ -189,7 +191,7 @@ Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
 
 Function Run-TestsWithFilter
 {    
-  <#
+    <#
   .SYNOPSIS
   Restores, Builds and runs tests.
   .DESCRIPTION
@@ -205,37 +207,37 @@ Function Run-TestsWithFilter
   .PARAMETER build
   Builds the project before running tests.
   #>
-  [CmdletBinding()]
-  param
-  (
-    [Parameter(Mandatory=$True)]
-    [Alias('f')]
-    [string]$filter,
-    [Alias('r')]
-    [switch]$restore,
-    [Alias('b')]
-    [switch]$build
-  )
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory = $True)]
+        [Alias('f')]
+        [string]$filter,
+        [Alias('r')]
+        [switch]$restore,
+        [Alias('b')]
+        [switch]$build
+    )
 
     if ($restore)
     {
-        Write-Host "msbuild /v:m /m /t:restore"  
+        Write-Host "msbuild /v:m /m /t:restore"
         & msbuild /v:m /m /t:restore
     }
 
     if ($build)
     {
-        Write-Host "msbuild /v:m /m"  
+        Write-Host "msbuild /v:m /m"
         & msbuild /v:m /m
     }
 
-    Write-Host "& dotnet test --no-build --filter DisplayName~$filter"   
+    Write-Host "dotnet test --no-build --filter DisplayName~$filter"
     & dotnet test --no-build --filter DisplayName~$filter
 }
 
 Function Git-MergeWithTheirChanges
 {    
-  <#
+    <#
   .SYNOPSIS
   Merges the a branch into another branch.
   .DESCRIPTION
@@ -247,18 +249,18 @@ Function Git-MergeWithTheirChanges
   .PARAMETER secondaryBranch
   The secondary branch which should be merged into the primary branch.
   #>
-  [CmdletBinding()]
-  param
-  (
-    [Parameter(Mandatory=$True)]
-    [Alias('d')]
-    [string]$primaryBranch,
-    [Parameter(Mandatory=$True)]
-    [Alias('s')]
-    [string]$secondaryBranch,
-    [Alias('p')]
-    [switch]$push
-  )
+    [CmdletBinding()]
+    param
+    (
+        [Parameter(Mandatory = $True)]
+        [Alias('d')]
+        [string]$primaryBranch,
+        [Parameter(Mandatory = $True)]
+        [Alias('s')]
+        [string]$secondaryBranch,
+        [Alias('p')]
+        [switch]$push
+    )
 
     Write-Host "git checkout $secondaryBranch"
     git checkout $secondaryBranch
