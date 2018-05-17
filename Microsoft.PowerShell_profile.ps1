@@ -129,6 +129,11 @@ Function Kill-GPG
     taskkill /F /IM gpg*
 }
 
+Function Kill-Dotnet
+{
+    taskkill /F /IM dotnet.exe 
+}
+
 Function Set-CI-EnvironmentVariable
 {
     $env:CI = $True
@@ -298,6 +303,7 @@ Set-Alias -Name gitrh -value Git-Reset-Hard -description "Git reset --hard"
 
 Set-Alias -Name mskill -value Kill-MSBuild -description "Kill MSBuild processes"
 Set-Alias -Name gpgkill -value Kill-GPG -description "Kill GPG processes"
+Set-Alias -Name dotnetkill -value Kill-Dotnet -description "Kill Dotnet processes"
 
 Set-Alias -Name patchcli -value Patch-CLI -description "Move Commandline xplat dlls into cli"
 
