@@ -236,7 +236,7 @@ Function Run-TestsWithFilter
     }
 
     Write-Host "dotnet test --no-build --filter DisplayName~$filter"
-    & dotnet test --no-build --filter DisplayName~$filter
+    & dotnet test --no-build --no-restore --filter DisplayName~$filter
 }
 
 Function Git-MergeWithTheirChanges
