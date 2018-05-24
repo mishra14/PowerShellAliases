@@ -23,9 +23,9 @@ else
     Write-Host "Setting profile for mishra14-desktop"
 	
     $nugetClientRoot = "E:\NuGet.Client"
-    $cliRoot = "E:\cli"
+    $cliRoot = "F:\validation\repos\cli"
     Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017Stable\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-    Set-Alias dotnetlocal "E:\cli\bin\2\win10-x64\dotnet\dotnet.exe"
+    Set-Alias dotnetlocal " F:\validation\repos\cli\bin\2\win-x64\dotnet\dotnet.exe"
     Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
     Set-Alias nuget "F:\paths\NuGet.exe"
 }
@@ -146,29 +146,28 @@ Function Reset-CI-EnvironmentVariable
 
 Function Patch-CLI
 {
-    $cliArtifactsPath = [System.IO.Path]::Combine($cliRoot, 'artifacts', 'win10-x64', 'stage2', 'sdk')
+    # F:\validation\repos\cli\bin\2\win-x64\dotnet\sdk\2.1.400-preview-008853
+    $cliArtifactsPath = [System.IO.Path]::Combine($cliRoot, 'bin', '2', 'win-x64', 'dotnet', 'sdk')
     $nugetXplatArtifactsPath = [System.IO.Path]::Combine($nugetClientRoot, 'artifacts', 'NuGet.CommandLine.XPlat', '15.0', 'bin', 'Debug', 'netcoreapp1.0')
 
     if (-Not (Test-Path $nugetXplatArtifactsPath))
     {
-        Write-Error "$($nugetXplatArtifactsPath) not found!"
+        Write-Error "$nugetXplatArtifactsPath not found!"
         return;
     }
 
     if (-Not (Test-Path $cliArtifactsPath))
     {
-        Write-Error "$($cliArtifactsPath) not found!"
+        Write-Error "$cliArtifactsPath not found!"
         return;
     }
     
     $cli_path = (Get-ChildItem $cliArtifactsPath)[0].FullName
     
     Write-Host
-    Write-Host "Source commandline path - $($nugetXplatArtifactsPath)"
-    Write-Host "Destination cli path - $($cli_path)"
+    Write-Host "Source commandline path - $nugetXplatArtifactsPath"
+    Write-Host "Destination cli path - $cli_path"
     Write-Host
-    
-
     
     Get-ChildItem $nugetXplatArtifactsPath -Filter *.dll | 
         Foreach-Object {	
