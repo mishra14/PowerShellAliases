@@ -205,7 +205,7 @@ Function Run-TestsWithFilter
   .EXAMPLE
   Run-TestsWithFilter TestMethodName -b
   .PARAMETER filter
-  The filter to be passed to dotnet test --filter option.
+  The filter to be passed to dotnet test --filter option. No filter will run all tests.
   .PARAMETER restore
   Restores the project before running tests.
   .PARAMETER build
@@ -214,7 +214,6 @@ Function Run-TestsWithFilter
     [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory = $True)]
         [Alias('f')]
         [string]$filter,
         [Alias('r')]
@@ -235,8 +234,16 @@ Function Run-TestsWithFilter
         & msbuild /v:m /m
     }
 
-    Write-Host "dotnet test --no-build --filter DisplayName~$filter"
-    & dotnet test --no-build --no-restore --filter DisplayName~$filter
+    if ([string]::IsNullOrEmpty($filter))
+    {
+        Write-Host "dotnet test --no-build --no-restore"
+        & dotnet test --no-build --no-restore
+    }
+    else
+    {
+        Write-Host "dotnet test --no-build --no-restore --filter DisplayName~$filter"
+        & dotnet test --no-build --no-restore --filter DisplayName~$filter
+    }
 }
 
 Function Git-MergeWithTheirChanges
