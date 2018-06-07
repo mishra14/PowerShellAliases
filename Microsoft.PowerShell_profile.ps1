@@ -119,6 +119,11 @@ Function Git-Add-All
     git add -A
 }
 
+Function Git-Commit-Amend
+{
+    git commit --amend
+}
+
 Function Kill-MSBuild
 {
     taskkill /F /IM msbuild.exe 
@@ -306,6 +311,7 @@ Set-Alias -Name gitd -value Git-Diff -description "Git diff"
 Set-Alias -Name gitdd -value Git-Diff-Dev -description "Git diff dev"
 Set-Alias -Name gitr -value Git-Reset -description "Git reset"
 Set-Alias -Name gitrh -value Git-Reset-Hard -description "Git reset --hard"
+Set-Alias -Name gitam -value Git-Commit-Amend -description "Git Commit --Amend"
 
 Set-Alias -Name mskill -value Kill-MSBuild -description "Kill MSBuild processes"
 Set-Alias -Name gpgkill -value Kill-GPG -description "Kill GPG processes"
