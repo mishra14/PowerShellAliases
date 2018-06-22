@@ -126,16 +126,19 @@ Function Git-Commit-Amend
 
 Function Kill-MSBuild
 {
+    Write-Host "taskkill /F /IM msbuild.exe"
     taskkill /F /IM msbuild.exe 
 }
 
 Function Kill-GPG
 {
+    Write-Host "taskkill /F /IM gpg*"
     taskkill /F /IM gpg*
 }
 
 Function Kill-Dotnet
 {
+    Write-Host "taskkill /F /IM dotnet.exe "
     taskkill /F /IM dotnet.exe 
 }
 
