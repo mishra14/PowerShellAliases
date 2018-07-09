@@ -138,8 +138,14 @@ Function Kill-GPG
 
 Function Kill-Dotnet
 {
-    Write-Host "taskkill /F /IM dotnet.exe "
+    Write-Host "taskkill /F /IM dotnet.exe"
     taskkill /F /IM dotnet.exe 
+}
+
+Function Kill-VS
+{
+    Write-Host "taskkill /F /IM devenv.exe"
+    taskkill /F /IM devenv.exe
 }
 
 Function Set-CI-EnvironmentVariable
@@ -319,6 +325,7 @@ Set-Alias -Name gitam -value Git-Commit-Amend -description "Git Commit --Amend"
 Set-Alias -Name mskill -value Kill-MSBuild -description "Kill MSBuild processes"
 Set-Alias -Name gpgkill -value Kill-GPG -description "Kill GPG processes"
 Set-Alias -Name dotnetkill -value Kill-Dotnet -description "Kill Dotnet processes"
+Set-Alias -Name vskill -value Kill-VS -description "Kill VS processes"
 
 Set-Alias -Name patchcli -value Patch-CLI -description "Move Commandline xplat dlls into cli"
 
