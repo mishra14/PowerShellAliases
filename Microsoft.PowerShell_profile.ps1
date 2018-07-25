@@ -25,6 +25,7 @@ else
     $nugetClientRoot = "E:\NuGet.Client"
     $cliRoot = "F:\validation\repos\cli"
     Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017Stable\Enterprise\MSBuild\15.0\bin\msbuild.exe"
+    Set-Alias msbuilddogfood "C:\Program Files (x86)\Microsoft Visual Studio\2017DogFood\Enterprise\MSBuild\15.0\bin\msbuild.exe"
     Set-Alias dotnetlocal " F:\validation\repos\cli\bin\2\win-x64\dotnet\dotnet.exe"
     Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
     Set-Alias nuget "F:\paths\NuGet.exe"
@@ -192,6 +193,7 @@ Function Patch-CLI
     }
 }
 
+
 Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
 {   
     if ([string]::IsNullOrEmpty($target))
@@ -204,7 +206,7 @@ Function Run-NuGetTargetsCustom($projectPath, $target, $extra)
     $nugetTargetsPath = Join-Path $nugetClientRoot "src\NuGet.Core\NuGet.Build.Tasks\NuGet.targets"
 
     Write-Host "msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra"    
-    & msbuild $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
+    & msbuilddogfood $projectPath /t:$target /p:NuGetRestoreTargets=$nugetTargetsPath /p:RestoreTaskAssemblyFile=$nugetBuildTaskDllPath $extra
 }
 
 Function Run-TestsWithFilter
