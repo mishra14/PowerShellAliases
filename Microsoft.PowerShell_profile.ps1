@@ -1,14 +1,4 @@
-if ($env:computername -eq "MISHRA14-LAPTOP")
-{
-    Write-Host "Setting profile for mishra14-laptop"
-	
-    $nugetClientRoot = "C:\Users\anmishr\Documents\GitHub\NuGet.Client"
-    $cliRoot = "C:\Users\anmishr\Documents\GitHub\cli"
-    Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-    Set-Alias dotnetlocal "C:\Users\anmishr\Documents\GitHub\cli\bin\2\win10-x64\dotnet\dotnet.exe"
-    Set-Alias xunitconsole "C:\Users\anmishr\Documents\GitHub\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
-}
-elseif ($env:computername -eq "MISHRA14-MAC")
+if ($env:computername -eq "MISHRA14-MAC")
 {
     Write-Host "Setting profile for mishra14-mac"
 	
@@ -16,7 +6,7 @@ elseif ($env:computername -eq "MISHRA14-MAC")
     $cliRoot = "C:\Users\anmishr\Documents\git\cli"
     Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\bin\msbuild.exe"
     Set-Alias dotnetlocal "C:\Users\anmishr\Documents\git\cli\bin\2\win10-x64\dotnet\dotnet.exe"
-    Set-Alias xunitconsole "C:\Users\anmishr\Documents\git\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
+    Set-Alias xunitconsole "C:\Users\anmishr\Documents\git\NuGet.Client\packages\xunit.runner.console.2.3.1\tools\net452\xunit.console.x86.exe"
 }
 else
 {
@@ -26,8 +16,8 @@ else
     $cliRoot = "F:\validation\repos\cli"
     Set-Alias msbuild "C:\Program Files (x86)\Microsoft Visual Studio\2017Stable\Enterprise\MSBuild\15.0\bin\msbuild.exe"
     Set-Alias msbuilddogfood "C:\Program Files (x86)\Microsoft Visual Studio\2017DogFood\Enterprise\MSBuild\15.0\bin\msbuild.exe"
-    Set-Alias dotnetlocal " F:\validation\repos\cli\bin\2\win-x64\dotnet\dotnet.exe"
-    Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.2.0\tools\xunit.console.x86.exe"
+    Set-Alias dotnetlocal "F:\validation\repos\cli\bin\2\win-x64\dotnet\dotnet.exe"
+    Set-Alias xunitconsole "E:\NuGet.Client\packages\xunit.runner.console.2.3.1\tools\net452\xunit.console.x86.exe"
     Set-Alias nuget "F:\paths\NuGet.exe"
 }
 
